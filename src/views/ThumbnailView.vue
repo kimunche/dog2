@@ -6,6 +6,7 @@
       :key="pic.url"
       @click="imageClicked(pic)"
     />
+    <!--https://images.dog.ceo/breeds/schnauzer-giant/n02097130_4511.jpg-->
   </div>
 </template>
 

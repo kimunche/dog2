@@ -14,10 +14,10 @@
           ><span class="material-symbols-outlined"> pets </span
           ><span class="text">Dog</span></router-link
         >
-        <div class="menu">
+        <router-link class="menu" to="/bookmark" tag="div">
           <span class="material-symbols-outlined"> bookmarks </span
           ><span class="text">Bookmark</span>
-        </div>
+        </router-link>
       </div>
     </div>
     <div class="main-area">
