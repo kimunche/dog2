@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DogView from "../views/DogView.vue";
 import bookmarkView from "../views/bookmarkView.vue";
+import LoginView from "../views/LoginView.vue";
 
 Vue.use(VueRouter);
 
@@ -30,6 +31,12 @@ const routes = [
     path: "/bookmark",
     name: "bookmarkView",
     component: bookmarkView,
+  },
+
+  {
+    path: "/login",
+    name: "LoginView",
+    component: LoginView,
   },
 ];
 

@@ -1,9 +1,14 @@
 <template>
   <div class="wrapper">
     <div class="left-menu">
-      <div class="user-info">
+      <div v-if="account" class="user-info">
         <span class="material-symbols-outlined"> account_circle </span>
-        <h5>jane@gmail.com</h5>
+        <h5>{{ account.userEmail }}</h5>
+        <button @click="logout">logout</button>
+      </div>
+      <div v-else class="user-info">
+        <span class="material-symbols-outlined"> account_circle </span>
+        <h5><router-link to="/login">LOGIN</router-link></h5>
       </div>
       <div class="menu-list">
         <router-link class="menu" to="/" tag="div"
@@ -27,7 +32,49 @@
 </template>
 
 <script>
-export default {};
+// import api from './service/api';
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      // account: {
+      //   seq: 2341,
+      //   userId: "hello",
+      //   email: "hello@gmail.com",
+      //   role: "manager",
+      // },
+    };
+  },
+  computed: {
+    // computed property 라는 뜻
+    // 파생 데이터!
+    userEmail() {
+      return this.$store.getters["user/mail"];
+    },
+    account() {
+      return this.$store.state.user.account;
+    },
+  },
+  mounted() {
+    console.log("[vuex1]", this.$store.getters["user/mail"]);
+    this.$store.dispatch("picture/fetchDogs");
+  },
+  methods: {
+    login() {
+      this.userEmail;
+      // api.user.log('sssdd', '11111').then(res => {
+      //   this.account= res.account;
+      // })
+    },
+    logout() {
+      axios.post("http://localhost:8080/logout").then((res) => {
+        console.log(res);
+        this.$store.commit("user/setUser", null);
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +83,7 @@ export default {};
   height: 100%;
   .left-menu {
     flex-grow: 0;
+    flex-shrink: 0;
     width: 200px;
     transition: width 0.2s cubic-bezier(0.06, 0.61, 0.99, 0.43); // width , 2초동안
     background-color: aquamarine;

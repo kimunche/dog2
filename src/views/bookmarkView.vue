@@ -8,7 +8,14 @@
         :key="pic.seq"
         class="dog"
         :style="`background-image: url('https://images.dog.ceo/breeds${pic.url}')`"
-      ></div>
+      >
+        <span
+          class="material-symbols-outlined btn-del"
+          @click.stop="removeBookmark(pic)"
+        >
+          cancel
+        </span>
+      </div>
     </div>
     <!-- <div v-if="modalVisible" class="modal-wrapper">
       <div class="dimmer" @click="closeModal"></div>
@@ -28,7 +35,6 @@
 </template>
 
 <script>
-import api from "../service/api";
 import ModalView from "@/components/ModalView.vue";
 
 export default {
@@ -37,24 +43,20 @@ export default {
   },
   data() {
     return {
-      pics: null,
+      // pics: null,
       activePic: null,
       modalVisible: false,
     };
   },
+  computed: {
+    pics() {
+      return this.$store.state.picture.bookmarks;
+    },
+  },
   mounted() {
     console.log("[지금 컴포넌트가 준비됐음!]");
-    this.loadFavoriteDogs(); //
   },
   methods: {
-    loadFavoriteDogs() {
-      console.log("여기서 개 사진을 요청함!");
-      // api.dog.loadFavorite()
-      api.dog.loadBookmark().then((res) => {
-        console.log("[개 사진 나와야 함]", res);
-        this.pics = res.data;
-      });
-    },
     closeModal() {
       console.log("close");
       this.modalVisible = false;
@@ -62,6 +64,10 @@ export default {
     showModal(pic) {
       this.activePic = pic;
       this.modalVisible = true;
+    },
+    removeBookmark(pic) {
+      console.log(pic);
+      this.$store.dispatch("picture/toggleActive", pic);
     },
   },
 };
@@ -83,6 +89,16 @@ $timing: 0.2s;
     background-position: center;
     background-color: #eee;
     transition: height $timing $fn, width $timing $fn;
+    position: relative;
+    .btn-del {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      text-shadow: 2px 2px 4px #0000004d;
+      background-color: white;
+      border-radius: 24px;
+      box-shadow: 2px 2px 4px #0000004d;
+    }
   }
   @media screen and (max-width: 460px) {
     .dog {
@@ -113,6 +129,7 @@ $timing: 0.2s;
   transition: opacity 0.5s ease;
 }
 
+.fade-enter,
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
